@@ -1,6 +1,6 @@
 import json
 from typing import Optional, Tuple, Callable, Any, Dict
-from aws import utils
+from telegram_envelope import utils
 
 
 class InputMessage:

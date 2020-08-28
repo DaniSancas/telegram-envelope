@@ -1,6 +1,6 @@
 import json
 from typing import Tuple
-from aws.simple_text_bot import WebHookTextBot, InputMessage
+from telegram_envelope.simple_text_bot import WebHookTextBot, InputMessage
 
 
 def run_simple_logic(input_message: InputMessage) -> Tuple[str, bool]:
