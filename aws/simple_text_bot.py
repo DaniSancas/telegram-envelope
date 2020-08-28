@@ -52,13 +52,13 @@ class WebHookTextBot:
         :rtype: Optional[InputMessage]
         """
         try:
-            body = http_request['body']
+            body = json.loads(http_request['body'])
             chat_id = int(body['message']['chat']['id'])
             text = body['message']['text']
             if body.get('message') is not None:
-                message_id = int(body['message'])
+                message_id = int(body['message']['message_id'])
             else:
-                message_id = int(body['edited_message'])
+                message_id = int(body['edited_message']['message_id'])
 
             return InputMessage(chat_id, text, message_id)
         except (KeyError, ValueError):
@@ -98,6 +98,6 @@ class WebHookTextBot:
 
             # Add reply_to_message_id key-value in case is specified by the user provided function
             if is_reply:
-                response['body']['reply_to_message_id'] = str(self.input_message.message_id)
+                response['body']['reply_to_message_id'] = int(self.input_message.message_id)
 
         return response
