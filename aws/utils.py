@@ -1,3 +1,4 @@
+import json
 import re
 from typing import Tuple, Dict
 
@@ -22,15 +23,17 @@ def parse_command(text: str) -> Tuple[str, str]:
     :return: A tuple containing the command and the rest of the text
     :rtype: Tuple[str, str]
     """
-    match = re.match(r"(\\/[a-zA-Z0-9]+)? *(.*)", text)
-    if match is None:
-        return '', ''
+    if text.startswith("/"):
+        if " " in text:
+            cmd, rest = text.split(" ", 1)
+        else:
+            cmd, rest = text, ''
+        return cmd[1:], rest
     else:
-        result = match.groups("")
-        return result[0], result[1]
+        return '', text
 
 
-def error_response(text: str = "", status_code: int = 400, content_type: str = 'text/html; charset=utf-8') -> Dict:
+def error_response(text: str = '', status_code: int = 400, content_type: str = 'text/html; charset=utf-8') -> Dict:
     """
     Creates an error response with parameterizable values.
 
@@ -46,5 +49,5 @@ def error_response(text: str = "", status_code: int = 400, content_type: str = '
     return {
         'statusCode': status_code,
         'headers': {'Content-Type': content_type},
-        'body': text
+        'body': json.dumps(text)
     }
