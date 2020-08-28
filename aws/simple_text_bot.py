@@ -9,7 +9,7 @@ class InputMessage:
         Constructor for InputMessage
 
         Initializes the values for chat_id, text and message_id
-        as a simplified version of an incomming message.
+        as a simplified version of an incoming message.
 
         :param chat_id:
         :type chat_id: int
@@ -52,13 +52,11 @@ class WebHookTextBot:
         :rtype: Optional[InputMessage]
         """
         try:
-            body = json.loads(http_request['body'])
-            chat_id = int(body['message']['chat']['id'])
-            text = body['message']['text']
-            if body.get('message') is not None:
-                message_id = int(body['message']['message_id'])
-            else:
-                message_id = int(body['edited_message']['message_id'])
+            body_key = json.loads(http_request['body'])
+            msg_key = body_key['message'] if 'message' in body_key else body_key['edited_message']
+            chat_id = int(msg_key['chat']['id'])
+            text = msg_key['text']
+            message_id = int(msg_key['message_id'])
 
             return InputMessage(chat_id, text, message_id)
         except (KeyError, ValueError):
@@ -83,7 +81,7 @@ class WebHookTextBot:
         else:
             try:
                 text, is_reply = function(self.input_message)
-            except RuntimeError as e:
+            except Exception as e:
                 text = f"An error occurred: {e}"
                 is_reply = False
 
