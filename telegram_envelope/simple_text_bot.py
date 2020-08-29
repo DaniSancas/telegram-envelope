@@ -89,6 +89,7 @@ class WebHookTextBot:
                 'statusCode': 200,
                 'headers': {'Content-Type': 'application/json'},
                 'body': {
+                    'method': 'sendMessage',
                     'text': json.dumps(text),
                     'chat_id': self.input_message.chat_id
                 }

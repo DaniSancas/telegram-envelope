@@ -41,6 +41,7 @@ def test_web_hook_text_bot_standard_message():
                 'statusCode': 200,
                 'headers': {'Content-Type': 'application/json'},
                 'body': {
+                    'method': 'sendMessage',
                     'text': '"ping"',
                     'chat_id': web_hook_text_bot.input_message.chat_id,
                     'reply_to_message_id': 456
@@ -69,6 +70,7 @@ def test_web_hook_text_bot_case_edited_message():
                 'statusCode': 200,
                 'headers': {'Content-Type': 'application/json'},
                 'body': {
+                    'method': 'sendMessage',
                     'text': '"pong"',
                     'chat_id': web_hook_text_bot.input_message.chat_id
                 }
@@ -120,6 +122,7 @@ def test_web_hook_text_bot_case_run_exception():
         'statusCode': 200,
         'headers': {'Content-Type': 'application/json'},
         'body': {
+            'method': 'sendMessage',
             'text': '"An error occurred: division by zero"',
             'chat_id': web_hook_text_bot.input_message.chat_id
         }
