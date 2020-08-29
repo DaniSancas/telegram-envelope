@@ -1,4 +1,4 @@
-from aws import utils
+from telegram_envelope import utils
 
 
 def test_parse_command():
