@@ -87,16 +87,18 @@ class WebHookTextBot:
 
             response: Dict[str, Any] = {
                 'statusCode': 200,
-                'headers': {'Content-Type': 'application/json'},
-                'body': {
-                    'method': 'sendMessage',
-                    'text': json.dumps(text),
-                    'chat_id': self.input_message.chat_id
-                }
+                'headers': {'Content-Type': 'application/json'}
+            }
+            body: Dict[str, Any] = {
+                'method': 'sendMessage',
+                'text': text,
+                'chat_id': self.input_message.chat_id
             }
 
             # Add reply_to_message_id key-value in case is specified by the user provided function
             if is_reply:
-                response['body']['reply_to_message_id'] = int(self.input_message.message_id)
+                body['reply_to_message_id'] = int(self.input_message.message_id)
+
+            response['body'] = json.dumps(body)
 
         return response
