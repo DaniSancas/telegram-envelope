@@ -36,3 +36,32 @@ def test_error_response():
         'headers': {'Content-Type': content},
         'body': '""'
     }
+
+
+def test_get_from_nested_dict():
+    assert utils.get_from_nested_dict({}, {"a": ["some", "key"]}) == {"a": None}
+    assert utils.get_from_nested_dict({"a": "some val"}, {"a": []}) == {"a": None}
+    assert utils.get_from_nested_dict({"a": "some val"}, {}) == {}
+    assert utils.get_from_nested_dict({"some": {"other": "thing"}}, {"a": ["some", "other"]}) == {"a": "thing"}
+    assert utils.get_from_nested_dict({"some": {"other": "thing"}}, {"a": ["some", "other", "more"]}) == {"a": None}
+    assert utils.get_from_nested_dict({"some": {"other": "thing"}}, {"a": ["some", "other", "more"]}, 0) == {"a": 0}
+    assert utils.get_from_nested_dict({
+        "k1": {"k11": "v1"},
+        "k2": {
+            "k22": {"k222": "v2"}
+        },
+        "k3": {},
+        "k4": {
+            "k44": {"too": "far"}
+        },
+        5: {
+            True: 55.55
+        }
+    }, {
+        "a1": ["k1", "k11"],
+        "a2": ["k2", "k22", "k222"],
+        "a3": ["k3"],
+        "a31": ["k3", "another"],
+        "a4": ["k4", "k44"],
+        555: [5, True]
+    }) == {"a1": "v1", "a2": "v2", "a3": {}, "a31": None, "a4": {"too": "far"}, 555: 55.55}
