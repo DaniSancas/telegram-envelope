@@ -7,7 +7,7 @@ top_level_typed_packages = {k: ['py.typed'] for k in set([k.split(".", 1)[0] for
 
 setuptools.setup(
     name="telegram-envelope",
-    version="0.1.3",
+    version="0.2.0-SNAPSHOT",
     author="Dani Sancas",
     author_email="lord.sancas@gmail.com",
     description="Micro-helper for AWS Telegram Bots written in Python",
